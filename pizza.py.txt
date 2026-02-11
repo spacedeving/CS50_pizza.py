@@ -1,0 +1,27 @@
+pizza.py
+
+import sys
+import csv
+from tabulate import tabulate
+
+def main():
+    if len(sys.argv) == 1:
+        sys.exit("Too few command-line arguments")
+
+    if len(sys.argv) > 2:
+        sys.exit("Too many command-line arguments")
+
+    file_string = sys.argv[1]
+
+    if not file_string.endswith(".csv"):
+        sys.exit("Not a CSV file")
+
+    try:
+        with open(file_string) as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+            print(tabulate(rows, headers="keys", tablefmt="grid"))
+    except FileNotFoundError:
+        sys.exit("File does not exist")
+
+main()
